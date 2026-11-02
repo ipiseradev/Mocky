@@ -1,8 +1,9 @@
 # Instrucciones para agentes
 
-## Reglas operativas para Codex
+## Reglas operativas para agentes
 
 - Consultá `.specify/memory/constitution.md` antes de cualquier cambio y las especificaciones vigentes en `specs/` antes de trabajar en el producto.
+- Usá las skills de Spec Kit disponibles en `.agents/skills/speckit-*` y respetá el flujo constitution → specify → clarify → plan → tasks → analyze → implement → verify.
 - No implementes funcionalidades sin una especificación aprobada. Si falta o es ambigua, seguí el flujo de la constitución y resolvé la definición antes de implementar.
 - No instales dependencias salvo que sean necesarias para un alcance aprobado y estén justificadas.
 - Limitá los cambios a los archivos necesarios para la tarea autorizada. No modifiques archivos fuera de alcance.

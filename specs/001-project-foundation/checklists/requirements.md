@@ -13,13 +13,13 @@
 
 ## Completitud de requisitos
 
-- [x] No quedan marcadores `[NEEDS CLARIFICATION]`; las elecciones pendientes están identificadas para Plan.
+- [x] No quedan marcadores `[NEEDS CLARIFICATION]`; las decisiones delegadas a Plan quedaron resueltas en `plan.md`, `research.md` y los ADRs.
 - [x] Los requisitos son verificables; la integración requiere una respuesta real, un timeout finito y errores distinguibles sin fijar un valor antes de Plan.
 - [x] Los criterios de éxito son medibles, distinguen respuestas reales de simuladas y no fijan protocolo ni detalles de implementación.
 - [x] Cada historia tiene escenarios de aceptación independientes.
 - [x] Se identifican casos de error y límites del entorno local.
 - [x] El alcance distingue aplicaciones mínimas para integración de entrevistas, autenticación de producto, IA, avatares 3D y otras funciones de negocio excluidas.
-- [x] Supuestos y decisiones pendientes están registrados.
+- [x] Supuestos y decisiones delegadas están registrados; las delegadas a Plan quedaron resueltas.
 
 ## Preparación de la feature
 
@@ -31,4 +31,4 @@
 ## Notas
 
 - Se revalidaron los 15 criterios tras precisar aplicaciones mínimas, comunicación efectiva y estados reales de CI. La revisión cubre calidad de requisitos; no afirma que haya implementación ni que se hayan ejecutado pruebas del producto.
-- Las decisiones enumeradas en la especificación se resolverán en Plan, según el flujo de trabajo aprobado.
+- Las decisiones enumeradas en la especificación quedaron resueltas en Plan, según el flujo de trabajo aprobado.

@@ -3,7 +3,7 @@
 **Feature**: `001-project-foundation`  
 **Rama**: `main` (no se creó una rama específica para esta feature)  
 **Creada**: 2026-11-02  
-**Estado**: Borrador para revisión  
+**Estado**: Aprobada para planificación e implementación
 **Entrada**: Definir requisitos verificables para la infraestructura inicial de Mocky.
 
 ## Historias de usuario y pruebas
@@ -35,7 +35,7 @@
 
 1. **Dado** que las aplicaciones mínimas locales están ejecutándose, **cuando** el frontend realiza una solicitud al backend real, **entonces** recibe y verifica una respuesta producida por ese backend; una respuesta simulada o interceptada no cuenta como integración exitosa.
 2. **Dado** que no se puede establecer la conexión con el backend, **cuando** el frontend ejecuta la comprobación, **entonces** informa un error de conexión distinto de un timeout y de una respuesta de error del backend.
-3. **Dado** que el backend no responde dentro del límite finito configurado, **cuando** vence ese límite, **entonces** el frontend termina la espera e informa un timeout distinguible de un error de conexión y de una respuesta de error. El valor del límite se decidirá en Plan.
+3. **Dado** que el backend no responde dentro del límite finito configurado, **cuando** vence ese límite, **entonces** el frontend termina la espera e informa un timeout distinguible de un error de conexión y de una respuesta de error. El valor del límite quedó definido en Plan.
 4. **Dado** que el backend responde con un resultado de error, **cuando** el frontend ejecuta la comprobación, **entonces** informa una respuesta de error distinguible de un error de conexión y de un timeout.
 5. **Dado** un dato de prueba guardado en la persistencia local, **cuando** se reinicia el servicio de base de datos, **entonces** el dato sigue disponible mediante la comprobación documentada.
 
@@ -62,7 +62,7 @@
 - Una variable obligatoria está ausente, vacía o mal formada: el inicio falla con un diagnóstico seguro y accionable.
 - El backend inicia antes de que PostgreSQL esté listo, o PostgreSQL no puede aceptar conexiones: el estado y la salida distinguen disponibilidad pendiente de fallo definitivo y permiten recuperación documentada.
 - El frontend no puede alcanzar al backend por una dirección o configuración incorrecta: la comprobación identifica un error de conexión, distinto de timeout o respuesta de error.
-- El backend no responde dentro del límite configurado: la comprobación termina en tiempo finito e informa un timeout; el valor del límite se define en Plan.
+- El backend no responde dentro del límite configurado: la comprobación termina en tiempo finito e informa un timeout; el valor del límite quedó definido en Plan.
 - El backend responde con error: la comprobación informa la respuesta como error y no la confunde con una conexión fallida ni con un timeout.
 - Una respuesta de prueba simulada o interceptada reemplaza accidentalmente al backend local: esa respuesta no puede satisfacer el criterio de integración exitosa.
 - Se ejecuta el flujo en una ruta de Windows con espacios o separadores propios de Windows: los pasos documentados siguen funcionando.
@@ -73,13 +73,13 @@
 
 ### Requisitos funcionales
 
-- **FR-001**: El repositorio DEBE separar frontend y backend bajo `frontend/` y `backend/`, respectivamente. Esta feature PUEDE incluir aplicaciones mínimas ejecutables únicamente para iniciar los componentes y verificar la infraestructura, la comunicación efectiva frontend-backend y la persistencia local. Estas aplicaciones NO DEBEN implementar entrevistas, autenticación de producto, IA conversacional, avatares 3D ni otras funcionalidades de negocio; sus límites y responsabilidades internas se definirán en Plan.
+- **FR-001**: El repositorio DEBE separar frontend y backend bajo `frontend/` y `backend/`, respectivamente. Esta feature PUEDE incluir aplicaciones mínimas ejecutables únicamente para iniciar los componentes y verificar la infraestructura, la comunicación efectiva frontend-backend y la persistencia local. Estas aplicaciones NO DEBEN implementar entrevistas, autenticación de producto, IA conversacional, avatares 3D ni otras funcionalidades de negocio; sus límites y responsabilidades internas se definieron en Plan.
 - **FR-002**: El proyecto DEBE documentar un flujo repetible para preparar, iniciar, detener y recuperar el entorno local desde un checkout limpio, compatible con Windows y basado en Docker.
 - **FR-003**: La configuración local DEBE obtenerse de archivos locales excluidos del versionado o de variables de entorno, nunca de archivos versionados con valores secretos. El repositorio DEBE proporcionar un ejemplo sin secretos reales; el inicio DEBE detectar configuración obligatoria ausente o inválida y dar instrucciones seguras para corregirla.
-- **FR-004**: La comprobación de integración DEBE realizar una comunicación efectiva desde el frontend hasta el backend local en ejecución y verificar una respuesta producida por ese backend. Una respuesta simulada o interceptada NO DEBE contar como integración exitosa. La comprobación DEBE terminar dentro de un tiempo finito y distinguir errores de conexión, timeout y respuestas de error del backend. El protocolo, las rutas, los formatos y el valor del límite de espera se definirán en Plan.
-- **FR-005**: El entorno local DEBE preparar PostgreSQL para uso de desarrollo y conservar los datos de desarrollo a través de un reinicio normal del servicio. El modelo de datos, la versión y el mecanismo concreto de persistencia quedan para Plan.
-- **FR-006**: El proyecto DEBE documentar cómo ejecutar las herramientas seleccionadas para formato, lint, tipado estricto y pruebas unitarias, de integración y E2E según el riesgo. Las herramientas, comandos y niveles de prueba se eligen en Plan; no se define un umbral universal de cobertura.
-- **FR-007**: La CI DEBE ejecutar realmente todos los controles obligatorios acordados para los cambios revisados; NO DEBE omitirlos silenciosamente. DEBE informar un resultado identificable por control. Un control que detecte incumplimientos DEBE informarse como fallido y provocar un resultado fallido para ese control. Los controles bloqueados o no ejecutados DEBEN informarse con ese estado y NO DEBEN presentarse como exitosos. La política de activación, bloqueo y efecto sobre el resultado global se definirá en Plan.
+- **FR-004**: La comprobación de integración DEBE realizar una comunicación efectiva desde el frontend hasta el backend local en ejecución y verificar una respuesta producida por ese backend. Una respuesta simulada o interceptada NO DEBE contar como integración exitosa. La comprobación DEBE terminar dentro de un tiempo finito y distinguir errores de conexión, timeout y respuestas de error del backend. El protocolo, las rutas, los formatos y el valor del límite de espera se definieron en Plan.
+- **FR-005**: El entorno local DEBE preparar PostgreSQL para uso de desarrollo y conservar los datos de desarrollo a través de un reinicio normal del servicio. El modelo de datos, la versión y el mecanismo concreto de persistencia se definieron en Plan.
+- **FR-006**: El proyecto DEBE documentar cómo ejecutar las herramientas seleccionadas para formato, lint, tipado estricto y pruebas unitarias, de integración y E2E según el riesgo. Las herramientas, comandos y niveles de prueba se eligieron en Plan; no se define un umbral universal de cobertura.
+- **FR-007**: La CI DEBE ejecutar realmente todos los controles obligatorios acordados para los cambios revisados; NO DEBE omitirlos silenciosamente. DEBE informar un resultado identificable por control. Un control que detecte incumplimientos DEBE informarse como fallido y provocar un resultado fallido para ese control. Los controles bloqueados o no ejecutados DEBEN informarse con ese estado y NO DEBEN presentarse como exitosos. La política de activación, bloqueo y efecto sobre el resultado global se definió en Plan.
 - **FR-008**: La documentación de inicio DEBE incluir prerrequisitos, configuración local, pasos de desarrollo en Windows y Docker, instrucciones para persistencia local, verificaciones, solución de errores comunes y límites conocidos.
 - **FR-009**: Los componentes de la base DEBEN informar errores operativos de forma estructurada y con contexto suficiente para diagnóstico. Las operaciones que crucen componentes DEBEN propagar un identificador de correlación cuando corresponda.
 - **FR-010**: Los logs y salidas de error NO DEBEN exponer secretos, valores de configuración sensibles, CV, transcripciones ni datos personales innecesarios.
@@ -93,6 +93,12 @@
 - **NFR-003**: Ningún secreto real DEBE ser requerido para iniciar los componentes locales de base. Los secretos de integraciones opcionales deben limitarse a CI o configuración local protegida.
 - **NFR-004**: Las comprobaciones de calidad locales y de CI DEBEN ser trazables, repetibles y producir mensajes que permitan localizar el control que falló.
 - **NFR-005**: Los límites entre módulos DEBEN poder describirse y revisarse sin introducir servicios adicionales que no estén justificados por los requisitos aprobados.
+
+### Observabilidad mínima y retención
+
+- **Eventos**: solicitud HTTP técnica, healthcheck, error de configuración y cambio de disponibilidad de dependencia.
+- **Métricas**: disponibilidad por healthcheck/`status_code`, errores por `status_code >= 400`/`error_code` y latencia por `duration_ms`; se derivan de logs estructurados y healthchecks, sin endpoint `/metrics`, agregador ni proveedor externo.
+- **Retención**: los logs locales viven mientras exista el contenedor y se descartan al eliminarlo, sin archivo propio; los artefactos CI sanitizados se conservan 7 días. No se registran secretos, cuerpos, CV, transcripciones, audio, video ni PII.
 
 ### Trazabilidad de requisitos y aceptación
 
@@ -117,14 +123,14 @@
 - **SC-001**: En una ejecución desde checkout limpio en Windows, se completan el 100% de los pasos documentados de preparación sin pasos tácitos ni cambios a archivos versionados.
 - **SC-002**: La comprobación frontend-backend produce el resultado esperado en sus cuatro escenarios: respuesta verificable del backend real, error de conexión, timeout finito y respuesta de error. Solo el primer escenario cuenta como integración exitosa y una respuesta simulada no puede satisfacerlo.
 - **SC-003**: Un dato de prueba escrito en la persistencia local sigue siendo legible tras un reinicio normal del servicio de almacenamiento.
-- **SC-004**: El 100% de los controles obligatorios muestra un estado identificable en CI. Cuando sus herramientas están disponibles, los controles se ejecutan realmente. Todo control que detecta incumplimientos se informa como fallido; los bloqueados o no ejecutados se identifican como tales y el conjunto no se presenta como completamente aprobado. La política concreta del estado global y los bloqueos se definirá en Plan.
+- **SC-004**: El 100% de los controles obligatorios muestra un estado identificable en CI. Cuando sus herramientas están disponibles, los controles se ejecutan realmente. Todo control que detecta incumplimientos se informa como fallido; los bloqueados o no ejecutados se identifican como tales y el conjunto no se presenta como completamente aprobado. La política concreta del estado global y los bloqueos se definió en Plan.
 - **SC-005**: Las salidas de los escenarios de configuración inválida y fallo de servicio contienen cero valores secretos y sí identifican una acción correctiva.
 - **SC-006**: El flujo documentado de preparación completa una ejecución desde una ruta de Windows con espacios y otra desde una ruta sin espacios, sin errores de resolución de rutas.
 
 ## Supuestos
 
 - El repositorio parte sin código de producto, módulos frontend/backend ni servicios locales ya configurados.
-- La persona que desarrolla en Windows puede instalar o iniciar Docker según las instrucciones del equipo; los prerrequisitos definitivos se documentarán en Plan.
+- La persona que desarrolla en Windows puede instalar o iniciar Docker según las instrucciones del equipo; los prerrequisitos definitivos quedaron documentados en Plan y Quickstart.
 - PostgreSQL local se prepara solo para desarrollo. No se requiere un despliegue productivo ni migración de datos de usuarios en esta feature.
 - La integración frontend-backend es una comprobación técnica básica y no implementa flujos de entrevista, usuarios ni autenticación de producto.
 - Las aplicaciones mínimas permitidas en esta feature se limitan a verificaciones técnicas y no habilitan funcionalidades de producto.
@@ -137,9 +143,9 @@
 - Crear cuentas, autenticación de producto, historiales, personalización con CV, pagos o integraciones con proveedores externos.
 - Definir infraestructura de producción, despliegues, escalado distribuido o servicios adicionales no justificados.
 
-## Decisiones pendientes para Plan
+## Decisiones delegadas a Plan (resueltas)
 
-Estas decisiones no bloquean la definición de necesidades y no se resuelven en esta etapa:
+Estas decisiones fueron delegadas a Plan y quedaron resueltas en `plan.md`; se conservan como registro de la etapa Specify:
 
 - Distribución de responsabilidades y límites concretos entre los módulos requeridos.
 - Mecanismo de orquestación local con Docker y opciones de compatibilidad con Docker Desktop en Windows.
@@ -148,9 +154,12 @@ Estas decisiones no bloquean la definición de necesidades y no se resuelven en 
 - Herramientas y comandos concretos de formato, lint, tipado y pruebas; proveedor y disparadores de CI.
 - Valor finito del límite de espera para la comprobación frontend-backend.
 - Política de CI para controles bloqueados o no ejecutados y su efecto sobre el estado global.
-- Campos permitidos en logs, esquema del identificador de correlación y retención de logs.
+- Campos permitidos en logs, eventos y métricas mínimas, esquema del identificador de correlación y retención local/CI.
 - Versiones soportadas de herramientas y procedimiento de actualización.
 
 ## Historial
 
+- **2026-11-02**: Cierre documental de Analyze: se resolvieron N-01–N-07 con README backend, orden del primer workflow CI, serialización de archivos compartidos, aclaración contrato/cliente, inventario canónico de entorno, valores de `LOG_LEVEL` y observabilidad/retención mínima. No se modificó el alcance ni la cantidad de requisitos.
+- **2026-11-02**: Remediación documental de Analyze: se precisaron timeout público, CORS/preflight, Pyright, auditoría de dependencias, estados de CI, dependencias y paralelismo, contrato/modelo, Compose, variables y limpieza de marcadores. No se modificó el alcance ni los requisitos funcionales.
+- **2026-11-02**: Plan técnico de la feature `001-project-foundation` aprobado tras revisión final de arquitectura, red, persistencia, CI y compatibilidad. Se autoriza la generación de tareas e implementación dentro del alcance especificado.
 - **2026-11-02**: primera versión para revisión, creada mediante la etapa Specify.

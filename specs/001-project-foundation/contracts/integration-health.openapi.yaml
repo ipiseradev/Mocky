@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: Mocky Foundation Integration Contract
+  version: 1.0.0-planned
+  description: >-
+    Contrato técnico planificado para comprobar que el frontend alcanza un
+    backend FastAPI real. El navegador usa el servidor publicado
+    http://localhost:8000; el nombre Compose `backend` no es público. No es una
+    API de producto y no implementa autenticación. El navegador envía
+    X-Request-ID, por lo que el backend configura CORSMiddleware para GET y
+    OPTIONS, limita los orígenes a BACKEND_ALLOWED_ORIGINS y no habilita
+    credenciales. El preflight OPTIONS forma parte del comportamiento
+    operativo, aunque no se documente como operación de negocio. Este contrato
+    modela únicamente respuestas HTTP del backend; connection_error y timeout
+    son clasificaciones locales del cliente frontend y no respuestas del
+    backend.
+servers:
+  - url: http://localhost:8000
+    description: URL que utiliza el navegador en desarrollo, incluso con Next.js en Compose.
+paths:
+  /api/v1/integration/health:
+    get:
+      summary: Comprueba disponibilidad del backend técnico
+      operationId: integrationHealth
+      parameters:
+        - $ref: '#/components/parameters/RequestId'
+      responses:
+        '200':
+          description: Backend disponible; respuesta producida por FastAPI.
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthReady'
+        '503':
+          description: Backend iniciado pero dependencia PostgreSQL no disponible.
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        default:
+          description: Error HTTP seguro del backend; el cliente lo clasifica como backend_error.
+          headers:
+            X-Request-ID:
+              $ref: '#/components/headers/RequestId'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  parameters:
+    RequestId:
+      name: X-Request-ID
+      in: header
+      required: false
+      description: UUID de correlación. Si falta o es inválido, el backend genera uno nuevo.
+      schema:
+        type: string
+        format: uuid
+  headers:
+    RequestId:
+      required: true
+      schema:
+        type: string
+        format: uuid
+  schemas:
+    HealthReady:
+      type: object
+      required: [status, service, source, request_id]
+      properties:
+        status:
+          type: string
+          const: ready
+        service:
+          type: string
+          const: backend
+        source:
+          type: string
+          const: mocky-backend
+        request_id:
+          type: string
+          format: uuid
+        checked_at:
+          type: string
+          format: date-time
+          description: Momento UTC de la comprobación; opcional.
+    Error:
+      type: object
+      required: [error, request_id]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [dependency_unavailable, internal_error]
+              description: Código público; el modelo interno detail_code se serializa aquí.
+            message:
+              type: string
+              description: Mensaje seguro sin secretos ni detalles internos.
+        request_id:
+          type: string
+          format: uuid
+        checked_at:
+          type: string
+          format: date-time
+          description: Momento UTC de la comprobación; opcional.

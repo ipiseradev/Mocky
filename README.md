@@ -10,7 +10,7 @@ La cámara será opcional y no se grabará ni enviará por defecto. Historial pe
 
 ## Estado del desarrollo
 
-El proyecto está en preparación documental. La constitución de ingeniería versión 1.1.0 y las instrucciones para agentes definen la gobernanza. No hay funcionalidades de producto implementadas ni una especificación de producto aprobada todavía.
+El proyecto está en preparación documental. La constitución de ingeniería versión 1.1.0 y las instrucciones para agentes definen la gobernanza. La feature `001-project-foundation` tiene especificación, plan, investigación, modelo, contrato, ADRs y 45 tareas aprobadas; Analyze fue ejecutado y sus hallazgos documentales, incluido el cierre N-01–N-07, quedaron resueltos. No hay funcionalidades de producto implementadas ni una especificación de producto aprobada todavía.
 
 ## Arquitectura propuesta
 
@@ -25,7 +25,7 @@ No se han creado estas aplicaciones, servicios ni dependencias. Las decisiones y
 
 ## Metodología
 
-Mocky sigue Specification-Driven Development. Los cambios de producto deben recorrer el flujo establecido en [la constitución](.specify/memory/constitution.md): constitution → specify → clarify (cuando aplique) → plan → tasks → analyze → implement → verify. Spec Kit CLI está disponible y sus skills para Codex están instaladas; las especificaciones, planes y tareas se crearán en `specs/` al iniciar una especificación aprobada.
+Mocky sigue Specification-Driven Development. Los cambios de producto deben recorrer el flujo establecido en [la constitución](.specify/memory/constitution.md): constitution → specify → clarify (cuando aplique) → plan → tasks → analyze → implement → verify. Spec Kit está instalado y sus skills para agentes están disponibles en `.agents/skills/`; los artefactos de la feature `001-project-foundation` están en `specs/001-project-foundation/`.
 
 ## Contribuir
 
