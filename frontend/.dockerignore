@@ -1,0 +1,16 @@
+node_modules/
+.next/
+out/
+.turbo/
+.vite/
+.vitest/
+coverage/
+playwright-report/
+test-results/
+.env
+.env.*
+*.log
+*.tsbuildinfo
+.cache/
+.DS_Store
+Thumbs.db
