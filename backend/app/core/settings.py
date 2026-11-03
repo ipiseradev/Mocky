@@ -7,14 +7,19 @@ from pydantic import BaseModel, ConfigDict, ValidationError, field_validator
 
 type LogLevel = Literal["DEBUG", "INFO", "WARNING", "ERROR"]
 
+DEFAULT_ALLOWED_ORIGIN = "http://localhost:3000"
+
 
 def validar_log_level(valor: str) -> LogLevel:
     if valor == "DEBUG":
         return "DEBUG"
+
     if valor == "INFO":
         return "INFO"
+
     if valor == "WARNING":
         return "WARNING"
+
     if valor == "ERROR":
         return "ERROR"
 
@@ -36,32 +41,38 @@ class Settings(BaseModel):
     @classmethod
     def validar_database_url(cls, valor: str) -> str:
         mensaje = (
-            "DATABASE_URL inválida. Configurá una URI PostgreSQL "
-            "con esquema, servidor y nombre de base de datos."
+            "DATABASE_URL inválida. "
+            "Configurá una URI PostgreSQL válida con esquema, "
+            "usuario, contraseña, servidor y nombre de base de datos."
         )
 
         try:
             url = urlsplit(valor)
 
-            if url.scheme not in ("postgresql", "postgresql+psycopg"):
+            if url.scheme not in (
+                "postgresql",
+                "postgresql+psycopg",
+            ):
                 raise ValueError(mensaje)
 
-            if not url.hostname or not url.path.strip("/"):
+            if not url.hostname:
                 raise ValueError(mensaje)
 
             if not url.username or not url.password:
                 raise ValueError(mensaje)
 
-            if url.port is not None and not (1 <= url.port <= 65535):
+            if not url.path.strip("/"):
+                raise ValueError(mensaje)
+
+            if url.port is not None and not (
+                1 <= url.port <= 65535
+            ):
                 raise ValueError(mensaje)
 
             if url.query or url.fragment:
                 raise ValueError(mensaje)
 
             if any(char.isspace() for char in valor):
-                raise ValueError(mensaje)
-
-            if not url.netloc or url.path == "/":
                 raise ValueError(mensaje)
 
         except ValueError:
@@ -74,14 +85,15 @@ class Settings(BaseModel):
     def validar_origins(cls, origins: list[str]) -> list[str]:
         mensaje = (
             "BACKEND_ALLOWED_ORIGINS contiene un origen inválido. "
-            "Configurá orígenes HTTP o HTTPS con host válido, "
-            "sin credenciales, rutas, parámetros ni fragmentos."
+            "Configurá una lista de orígenes HTTP o HTTPS "
+            "separados por comas, sin credenciales, rutas, "
+            "parámetros ni fragmentos."
         )
 
         if not origins:
             raise ValueError(
-                "BACKEND_ALLOWED_ORIGINS es obligatoria. "
-                "Configurá al menos un origen permitido."
+                "BACKEND_ALLOWED_ORIGINS inválida. "
+                "Configurá al menos un origen HTTP o HTTPS."
             )
 
         for origin in origins:
@@ -94,13 +106,18 @@ class Settings(BaseModel):
                 if not url.hostname:
                     raise ValueError(mensaje)
 
-                if url.username is not None or url.password is not None:
+                if url.username is not None:
+                    raise ValueError(mensaje)
+
+                if url.password is not None:
                     raise ValueError(mensaje)
 
                 if url.path or url.query or url.fragment:
                     raise ValueError(mensaje)
 
-                if url.port is not None and not (1 <= url.port <= 65535):
+                if url.port is not None and not (
+                    1 <= url.port <= 65535
+                ):
                     raise ValueError(mensaje)
 
                 if any(char.isspace() for char in origin):
@@ -117,19 +134,25 @@ class Settings(BaseModel):
 
 def get_settings() -> Settings:
     database_url = os.getenv("DATABASE_URL")
-    origins = os.getenv("BACKEND_ALLOWED_ORIGINS")
+
+    origins = os.getenv(
+        "BACKEND_ALLOWED_ORIGINS",
+        DEFAULT_ALLOWED_ORIGIN,
+    )
+
     log_level = os.getenv("LOG_LEVEL", "INFO")
 
     if not database_url:
         raise ValueError(
             "DATABASE_URL es obligatoria. "
-            "Configurala en las variables de entorno."
+            "Configurala en las variables de entorno "
+            "con una URI PostgreSQL válida."
         )
 
-    if not origins:
+    if not origins or not origins.strip():
         raise ValueError(
-            "BACKEND_ALLOWED_ORIGINS es obligatoria. "
-            "Configurala en las variables de entorno."
+            "BACKEND_ALLOWED_ORIGINS inválida. "
+            "Configurá al menos un origen HTTP o HTTPS."
         )
 
     nivel_validado = validar_log_level(log_level)
@@ -138,7 +161,8 @@ def get_settings() -> Settings:
         return Settings(
             database_url=database_url,
             backend_allowed_origins=[
-                origin.strip() for origin in origins.split(",")
+                origin.strip()
+                for origin in origins.split(",")
             ],
             log_level=nivel_validado,
         )
